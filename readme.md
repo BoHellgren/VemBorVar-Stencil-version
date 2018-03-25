@@ -1,3 +1,6 @@
+Version of VemBorVar made with web components, which have been created with Stencil.
+
+
 # Stencil App Starter
 
 Stencil is a compiler for building fast web apps using Web Components.
