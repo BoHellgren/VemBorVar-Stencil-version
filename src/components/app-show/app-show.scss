@@ -1,0 +1,69 @@
+app-show {
+
+    div {
+      padding: 12px;
+      padding-top: 5px;
+      padding-bottom: 5px;
+    }
+    
+    p {
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    table {
+        width: 100%;
+        table-layout: auto;
+    }
+
+    tr {
+        height: 30px;
+        font-size: 18px;
+    }
+
+    .container {
+      height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-template-rows: auto repeat(7,7vh) auto;
+      grid-gap: 5px;
+      background: #f0ebd8;
+  
+      .header {
+        grid-row: 1 / 4;
+        .centerImage {
+          text-align: center;
+          width: 100%;
+          margin: 0 auto;
+        } 
+      }
+    
+      .floor {
+        grid-row: 4 / 11;
+      }
+      
+      .footer {  
+          
+      }
+    }
+    
+       
+    button {
+    width: 90%;
+    background: #5851ff;
+    color: white;
+    margin: 8px;
+    border: none;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 11px ;
+    border-radius: 5px;
+    text-transform: uppercase;
+    }
+    
+    button:hover {
+      box-shadow: 0 3px 6px rgba(0,0,0,.1), 0 1px 3px rgba(0,0,0,.1);
+      transform: translateY(1px);
+    }
+}

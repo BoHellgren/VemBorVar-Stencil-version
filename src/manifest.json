@@ -1,0 +1,21 @@
+{
+  "name": "Vem Bor Var",
+  "short_name": "VemBorVar",
+  "start_url": "/",
+  "display": "standalone",
+  "icons": [
+    {       
+      "src": "/assets/icon/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/icon/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "background_color": "#f0ebd8",
+  "theme_color": "#4e8ef7",
+  "gcm_sender_id": "11097258299"
+}

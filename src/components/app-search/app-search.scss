@@ -1,0 +1,63 @@
+app-search {
+
+  p {
+    text-align: center;
+    font-size: 15px;
+  }
+
+  button {
+    border: none;
+    font-size: 18px;
+    background: #f0ebd8;
+    margin-top: 8px;
+    padding: 0px 10px;
+  }
+
+  div {
+    padding: 10px;
+    background: #f0ebd8;
+
+   .header {
+     background: #9f9efc;
+     height: 80px;
+      input {
+        font-size: 18px;
+        border-radius: 4px;
+        width: 100%;
+        height: 30px;
+      }
+    }
+
+    .content {  
+    
+      table {
+        width: 100%;
+        table-layout: fixed;
+      }
+
+      tr {
+        height: 15px;
+        padding-bottom: 5px;
+        padding-top: 5px;
+
+      }
+
+      td {
+        .wide {
+          width: 180px;
+          text-align: left;
+        }
+        .alnright {
+          width: 50px;
+          text-align: right;
+          background:url("../../assets/icon/if_arrow-right_227601.png");
+          background-repeat: no-repeat;
+         }
+      }
+    }
+  }
+  
+}
+
+
+

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Vem Bor Var</title>
+  <meta name="Description" content="Welcome to the Stencil App Starter. You can use this starter to build entire apps all with web components using Stencil!">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
+  <meta name="theme-color" content="#16161d">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+
+  <script src="/build/app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyC1FttZvq19tbUtiRqRwkCeFokDb484J0A",
+      authDomain: "mysubscriptiondb.firebaseapp.com",
+      databaseURL: "https://mysubscriptiondb.firebaseio.com",
+      projectId: "mysubscriptiondb",
+      storageBucket: "",
+      messagingSenderId: "170203061159"
+    };
+    firebase.initializeApp(firebaseConfig);
+    console.log('firebase initialized: ', firebase);
+    var subsdb = firebase.database();
+    // console.log('this.subsdb: ', this.subsdb);
+  </script>
+
+  <link rel="apple-touch-icon" href="/assets/icon/icon.png">
+  <link rel="icon" type="image/x-icon" href="/assets/icon/favicon.ico">
+  <link rel="manifest" href="/manifest.json">
+</head>
+
+<body>
+
+  <my-app></my-app>
+
+  <script>
+    //console.log('second index.html script');
+    // console.log('window.navigator.serviceWorker: ', window.navigator.serviceWorker);
+
+    if ('serviceWorker' in navigator) {
+      // console.log('Service Worker is supported');
+      // console.log('navigator[userAgent]: ', navigator["userAgent"]);
+      // console.log('window.navigator.serviceWorker.getRegistration: ', window.navigator.serviceWorker.getRegistration());
+
+      // window.navigator.serviceWorker.getRegistration()
+      window.navigator.serviceWorker.register('/sw.js')
+        .then(function (swReg) {
+          console.log('Service Worker is registered', swReg);
+          handleSubscribe(swReg);
+        })
+        .catch(function (error) {
+          console.error('Service Worker Error', error);
+        })
+    }
+
+    // Update the database to trace usage of app
+    var tracetime = Date();
+    var tracemsg = navigator["userAgent"];
+    const traces = this.subsdb.ref('/testtraces');
+    traces.push({ userAgent: tracemsg, timesubmitted: tracetime });
+    console.log('Trace msg pushed: ', tracemsg);
+
+    // Function handleSubscribe 
+
+    function handleSubscribe(swReg) {
+
+      console.log('handleSubscribe called');
+
+      if ('Notification' in window) {
+
+        var notperm = window["Notification"].permission
+        console.log('Notification.permisson: ', notperm);
+
+        if (notperm === 'denied') return;
+
+
+        swReg.pushManager.getSubscription()
+          .then(function (subscription) {
+            if (!subscription) { // Don't subscribe if we are already subscribed
+              if (notperm != 'granted') {
+                // Don't ask if we already allow push messages
+                window.alert(
+                  'Vill du ta emot viktiga meddelanden från bostadsrättsföreningen?' +
+                  ' Svara i så fall Tillåt (Allow) på frågan som kommer när du trycker på OK.'
+                );              
+              }
+              subscribeMe(swReg);
+            };
+          })
+          .catch(function (err) {
+            console.log('Error during getSubscription()', err);
+          });
+      };
+    } // end of function handleSubscribe
+
+    // Function subscribeMe
+
+    function subscribeMe(swReg) {
+
+      console.log('subscribeMe startad');
+
+      swReg.pushManager.subscribe({ userVisibleOnly: true })
+
+        .then(function (subscription) {
+          // console.log('User is subscribed. Subscription:', subscription);
+          var mysub = JSON.stringify(subscription);
+          // Update the subscription database 
+          // console.log('this.subsdb again: ', this.subsdb);
+          const subs = this.subsdb.ref('/testsubs');
+          console.log('subs:', subs);
+          var subtime = Date();
+          subs.push({ subscription: mysub, timesubmitted: subtime });
+          console.log('Subscription pushed: ', mysub);
+
+        })
+
+        .catch(function (err) {
+          var newperm = window["Notification"].permission;
+          if (newperm === 'denied') {
+            console.warn('Permission for notifications was denied by user');
+          } else {
+            console.error('Failed to subscribe the user: ', err);
+          }
+        });
+    } // end of function subscribeMe
+
+  </script>
+
+  <style>
+    body {
+      margin: 0px;
+      padding: 0px;
+      font-family: sans-serif;
+    }
+  </style>
+</body>
+
+</html>
